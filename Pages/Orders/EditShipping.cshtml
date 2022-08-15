@@ -1,0 +1,46 @@
+﻿@page
+@model TMA3A.Pages.Orders.EditShippingModel
+@{
+    ViewData["Title"] = "Edit Shipping";
+}
+
+<h1>Enter Shipping Address</h1>
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h4>
+        Order# @Html.DisplayFor(model=>model.Input.orderId)
+    </h4>
+    <input type="hidden" asp-for="Input.orderId"/>
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group p-1">
+                <label asp-for="Input.StreetAddress" class="control-label"></label>
+                <input asp-for="Input.StreetAddress" class="form-control" />
+                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <label asp-for="Input.City" class="control-label"></label>
+                <input asp-for="Input.City" class="form-control" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <label asp-for="Input.State" class="control-label"></label>
+                <input asp-for="Input.State" class="form-control" />
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <label asp-for="Input.PostalCode" class="control-label"></label>
+                <input asp-for="Input.PostalCode" class="form-control" />
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <label asp-for="Input.Country" class="control-label"></label>
+                <input asp-for="Input.Country" class="form-control" />
+                <span asp-validation-for="Input.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

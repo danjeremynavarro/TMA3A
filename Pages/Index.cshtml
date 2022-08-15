@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h5>Your timezone is:</h5>
+        <div id="timezone-container"></div>
+    <h5>Your current ip is:</h5>
+        <div id="ip-container"></div>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@section Scripts {
+<script>
+$(document).ready(() => {
+    $("#timezone-container").text(Intl.DateTimeFormat().resolvedOptions().timeZone)
+     $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function(data) {
+        $("#ip-container").text(data.ip)
+    });
+})
+</script>
+}

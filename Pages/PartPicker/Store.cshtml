@@ -1,0 +1,108 @@
+﻿@page
+@model TMA3A.Pages.PartPicker.StoreModel
+@{
+}
+
+<div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 fst-italic">Welcome to Dan's PC Store!</h1>
+        <p class="lead my-3">
+            Check out builds that was ordered by some of our customers or build your own!
+        </p>
+        <p class="lead mb-0"><a asp-area="" asp-page="/PartPicker/Index" class="text-white fw-bold">Build my own..</a></p>
+    </div>
+</div>
+
+@{
+    string renderHtml= "";
+    string colGroup = "";
+    bool inRow = false;
+}
+
+@for(var i = 0; i < Model.Spotlight.Count(); i++)
+{
+    var order = Model.Spotlight.ElementAt(i);
+    string ordersList = "<ul>";
+    foreach(var orderLine in order.OrderLines){
+        
+        string line = $@"
+            <li>{orderLine.Product.Title} - {orderLine.Product.Description}</li>
+        ";
+        ordersList += line;
+    }
+    ordersList += "</ul>";
+    string loc = $@"/PartPicker?orderid={order.Id}";
+    string col = $@"
+            <div class=""col-md-6"">
+                <div class=""row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"">
+                <div class=""col p-4 d-flex flex-column position-static"">
+                    <h3 class=""mb-0"">Featured Order</h3>
+                    <div>{ordersList}</div>
+                    <a href=""{loc}"" class=""tretched-link"">Go to store..</a>
+                </div>
+                <div class=""col-auto d-none d-lg-block"">
+                    <img src='/img/15923324.jpeg' width=""250"" height=""250""/>
+                </div>
+                </div>
+            </div>           
+            ";
+    colGroup += col;
+    if(i==0)
+    {
+        renderHtml += "<div class=\"row mb-2\">";
+    } else if (((i+1)%2) == 0 )
+    {    
+        renderHtml += colGroup;
+        colGroup = "";
+        renderHtml += "</div>";
+        renderHtml += "<div class=\"row mb-2\">";
+    } 
+}
+
+@{
+    if (!String.Equals(colGroup, "") && (Model.Spotlight.Count()%2) == 0)
+    {
+        renderHtml += colGroup;
+        renderHtml += "</div>";
+    } else
+    {
+        renderHtml += "<div class=\"row mb-2\">";
+        renderHtml += colGroup;
+        renderHtml += "</div>";
+    }
+}
+
+@Html.Raw(renderHtml)
+
+@*<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">World</strong>
+            <h3 class="mb-0">Featured post</h3>
+            <div class="mb-1 text-muted">Nov 12</div>
+            <p class="card-text mb-auto">This is a wider card with sasdasdal lead-in to additional content.</p>
+            <a href="#" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+            <img src='/img/15923324.jpeg' width="250" height="250"/>
+        </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-success">Design</strong>
+            <h3 class="mb-0">Post title</h3>
+            <div class="mb-1 text-muted">Nov 11</div>
+            <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+            <img src='~/img/15923324.jpeg' width="250" height="250"/>
+        </div>
+        </div>
+    </div>
+</div>*@

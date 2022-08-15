@@ -1,0 +1,205 @@
+﻿@page
+@model TMA3A.Pages.PartPicker.IndexModel
+@{
+}
+
+<div class="row">
+    <div class="col align-content-lg-start">
+        <div>
+            <h1>
+                 
+                @if(Model.Order != null)
+                {
+                    @($"For Order# {Model.Order.Id}")
+                } else
+                {
+                    @("New Order")
+                }
+            </h1>
+        </div>
+    </div> 
+</div>
+<form method="post" >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedMotherboard" asp-items="Model.Motherboard"></select>
+                <label class="fw-bold" asp-for="SelectedMotherboard">Select a Motherboard:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.Motherboard)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedMotherboard" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedCPU" asp-items="Model.CPU"></select>
+                <label class="fw-bold" asp-for="SelectedCPU">Select a CPU:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.CPU)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedCPU" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedRAM" asp-items="Model.RAM"></select>
+                <label class="fw-bold" asp-for="SelectedRAM">Select a RAM:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.RAM)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedRAM" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedGraphicCard" asp-items="Model.GraphicCard"></select>
+                <label class="fw-bold" asp-for="SelectedGraphicCard">Select a Graphic Card:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.GraphicCard)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedGraphicCard" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedOS" asp-items="Model.OS"></select>
+                <label class="fw-bold" asp-for="SelectedGraphicCard">Select a Graphic Card:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.OS)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedOS" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+        <div class="row mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select" asp-for="SelectedSoundCard" asp-items="Model.SoundCard"></select>
+                <label class="fw-bold" asp-for="SelectedSoundCard">Select a Sound Card:</label>
+            </div>
+        </div>
+        <div class="col">
+                @foreach(var product in Model.SoundCard)
+                {
+                    <div class="card item-info-container m-2" style="width: 18rem;" data-for="SelectedSoundCard" data-value="@product.Product.Id">
+                        <img class="card-img-top" src="@product.Product.ImgPath" alt="@product.Product.Description">
+                        <div class="card-body">
+                        <h5 class="card-title">@product.Product.Title</h5>
+                        <p class="card-text fst-italic">@product.Product.Description</p>
+                        <p class="card-text fw-bold">$ @product.Product.Price</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <h4>
+                Select Additional Items:
+            </h4>
+        </div>
+    </div>
+    @for(var i = 0; i < Model.AdditionalItems.Length; i++)
+    {
+    <div class="row mb-2">
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="@Model.AdditionalItems[i].Selected">
+                <label class="form-check-label" asp-for="@Model.AdditionalItems[i].Selected">
+                    @Model.AdditionalItems[i].Product.Title - $@Model.AdditionalItems[i].Product.Price
+                    </label>
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.Id">
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.Title">
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.Description">
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.ItemCategoryId">
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.Price">
+                <input type="hidden" asp-for="@Model.AdditionalItems[i].Product.ImgPath">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card m-2" style="width: 18rem;">
+                <img class="card-img-top" src="@Model.AdditionalItems[i].Product.ImgPath" alt="@@Model.AdditionalItems[i].Product.Description">
+                <div class="card-body">
+                <h5 class="card-title">@Model.AdditionalItems[i].Product.Title</h5>
+                <p class="card-text fst-italic">@Model.AdditionalItems[i].Product.Description</p>
+                <p class="card-text fw-bold">$ @Model.AdditionalItems[i].Product.Price</p>
+                </div>
+            </div>
+        </div>
+    </div>       
+    }
+    <div class="row mb-2">
+        <div class="col-4"></div>
+        <div class="col-4">   
+            @if(Model.Order!=null){<input asp-route-orderId="@(Model.Order.Id)" type="submit" value="Checkout" class="btn btn-primary" />}
+            else{<input type="submit" value="Checkout" class="btn btn-primary" />}     
+        </div>
+        <div class="col-4">      
+        </div>
+    </div>
+    </form>
+@section Scripts {
+<script src="~/js/PartPicker.js">
+</script>
+}

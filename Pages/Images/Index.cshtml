@@ -1,0 +1,64 @@
+﻿@page
+@model TMA3A.Pages.Images.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<p>
+    <a asp-page="Show">Show slideshow</a>
+</p>
+<p>
+    <a asp-page="Delete" asp-page-handler="All">Delete</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Image
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Image) {
+        <tr>
+            <td>
+               <img 
+                class="img-fluid" 
+                src="~/@($"{Model.Location}/{item.Location}")"
+                style="max-width:50%;max-height:auto;"
+               >
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Location">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Location">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Location">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

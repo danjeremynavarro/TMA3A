@@ -1,0 +1,73 @@
+﻿@page
+@model TMA3A.Pages.Images.ShowModel
+@{
+}
+<div class="row slide-container">
+    <div class="col-xl"></div>
+    <div class="col-xl">
+        <div class="control-container row">
+            <div class="col-sm">
+                <div id="sequential-controller">
+                    <button style="display:none;" id="start-show" type="button" class="btn btn-success slideshow-control mt-2">Start Show</button>
+                    <button id="stop-show" type="button" class="btn btn-danger slideshow-control mt-2">Stop Show</button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group" id="slideshow-mode">
+                    <label for="slideshow-mode">Slideshow Mode</label>
+                    <select class="form-control" id="show-mode">
+                        <option selected>Sequential</option>
+                        <option>Random</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group" id="sequential-mode-container">
+                    <label for="sequential-mode-container">Sequence Mode</label>
+                    <select class="form-control" id="sequential-mode">
+                        <option selected>Forward</option>
+                        <option>Backward</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="slideshow-container" class="carousel slide b-2 border-1 border-dark rounded" data-bs-ride="carousel">
+            
+            <div class="carousel-inner">
+            @{
+                int counter = 0;
+            }
+            @foreach(var img in Model.Images)
+            {
+                var imgClass = counter == 0 ? "carousel-item active": "carousel-item";
+                <div class="@imgClass">        
+                    <img 
+                    class="img-fluid slide-image" 
+                    src="~/@img.FullPath" 
+                    >
+                    <div class="carousel-caption">
+                        <h6>[@(counter+1)] @img.Name</h6>
+                        <p>@img.Description</p>
+                    </div>
+                </div>
+                counter++;
+            }
+            </div>
+            <button style="visibility:hidden" class="carousel-control-prev" type="button" data-bs-target="#slideshow-container" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button style="visibility:hidden" class="carousel-control-next" type="button" data-bs-target="#slideshow-container" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+        </div>
+        
+    </div>  
+    <div class="col-xl"></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Slide.js"></script>
+}

@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "localforage@1.10.0",
+      "destination": "wwwroot/js/localforage/",
+      "files": [
+        "localforage.min.js"
+      ]
+    }
+  ]
+}
