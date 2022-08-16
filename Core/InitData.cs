@@ -8,48 +8,46 @@ namespace TMA3A.Core
 {
     public class InitData 
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async Task Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new TMA3AContext(serviceProvider.GetRequiredService<DbContextOptions<TMA3AContext>>()))
+
+            var context = new TMA3AContext(serviceProvider.GetRequiredService<DbContextOptions<TMA3AContext>>());
+            var _roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            if (context == null)
             {
-                if (context == null)
-                {
-                    throw new ArgumentNullException(nameof(context));
-                }
+                throw new ArgumentNullException(nameof(context));
+            }
 
-                if (!context.ItemCategory.Any())
+            if (!context.ItemCategory.Any())
+            {
+                context.ItemCategory.AddRange(
+                        new ItemCategory { Id = "Motherboard" },
+                        new ItemCategory { Id = "CPU" },
+                        new ItemCategory { Id = "RAM" },
+                        new ItemCategory { Id = "Graphic Card" },
+                        new ItemCategory { Id = "OS" },
+                        new ItemCategory { Id = "Sound Card" },
+                        new ItemCategory { Id = "Miscellaneous" }
+                    );
+            }
+            context.SaveChanges();
+            string[] roles = new string[] {"Admin","User"};
+            var rolesToAdd = new List<IdentityRole>();
+            foreach (var role in roles)
+            {
+                var rQuery = from r in context.Roles
+                                where r.Name.Equals(role)
+                                select r;
+                var rResult = rQuery.FirstOrDefault();
+                if (rResult == null)
                 {
-                    context.ItemCategory.AddRange(
-                            new ItemCategory { Id = "Motherboard" },
-                            new ItemCategory { Id = "CPU" },
-                            new ItemCategory { Id = "RAM" },
-                            new ItemCategory { Id = "Graphic Card" },
-                            new ItemCategory { Id = "OS" },
-                            new ItemCategory { Id = "Sound Card" },
-                            new ItemCategory { Id = "Miscellaneous" }
-                        );
-                }
-                context.SaveChanges();
-                string[] roles = new string[] { "Admin","User"};
-                var rolesToAdd = new List<IdentityRole>();
-                foreach (var role in roles)
-                {
-                    var rQuery = from r in context.Roles
-                                 where r.Name.Equals(role)
-                                 select r;
-                    var rResult = rQuery.FirstOrDefault();
-                    if (rResult == null)
-                    {
-                        rolesToAdd.Add(new IdentityRole(role));
-                    }
-                }
-
-                if (rolesToAdd.Count() > 0)
-                {
-                    context.Roles.AddRange(rolesToAdd);
-                    context.SaveChanges();
+                    var rAdd = new IdentityRole(role);
+                    var result = await _roleManager.CreateAsync(rAdd);
                 }
             }
+
+            context.SaveChanges();
         }
     }
 }
