@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using TMA3A.Models;
 
 namespace TMA3A.Pages.Images
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly TMA3A.Data.TMA3AContext _context;
