@@ -17,7 +17,12 @@
     {
 <p>
         Please check your email to confirm your account.
-</p>
+        </p>
+    }
+
+    if (@Model.UserIsAdmin)
+    {
+        <p>User is created with admin privileges.</p>
     }
 }
 

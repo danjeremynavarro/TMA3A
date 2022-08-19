@@ -20,6 +20,7 @@ namespace TMA3A.Areas.Identity.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _sender;
+        public bool UserIsAdmin;
 
         public RegisterConfirmationModel(UserManager<User> userManager, IEmailSender sender)
         {
@@ -45,8 +46,9 @@ namespace TMA3A.Areas.Identity.Pages.Account
         /// </summary>
         public string EmailConfirmationUrl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(bool admin, string email, string returnUrl = null)
         {
+            this.UserIsAdmin = admin;
             if (email == null)
             {
                 return RedirectToPage("/Index");

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TMA3A.Data;
 using TMA3A.Models;
 
 namespace TMA3A.Areas.Identity.Pages.Account
@@ -30,13 +31,17 @@ namespace TMA3A.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly TMA3AContext _context;
+        private bool UserCreatedAsAdmin = false;
+
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            TMA3AContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +49,7 @@ namespace TMA3A.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -106,7 +112,10 @@ namespace TMA3A.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-
+        /**
+         * public async Task<ActionResult> OnPostAsync()
+         * C
+         */
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -114,11 +123,34 @@ namespace TMA3A.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var qAdminId = from r in _context.Roles
+                               where r.NormalizedName == "ADMIN"
+                               select r;
+                var adminId = qAdminId.FirstOrDefault();
+                if (adminId is not null)
+                {
+                    var qAdminRole = from r in _context.UserRoles
+                                     where r.RoleId == adminId.Id
+                                     select r;
+                    var adminRole = qAdminRole.FirstOrDefault();
+                    if (adminRole is null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                        this.UserCreatedAsAdmin = true;
+                    } else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+                    
+                } else
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
 
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -137,7 +169,7 @@ namespace TMA3A.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl, admin=this.UserCreatedAsAdmin });
                     }
                     else
                     {
