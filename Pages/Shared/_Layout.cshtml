@@ -30,9 +30,6 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/PartPicker/Store">Store</a>
                         </li>
                         <li class="nav-item">
@@ -46,6 +43,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Products/Index">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Documentation">Documentation</a>
                         </li>
                     </ul>
                 </div>
@@ -74,7 +74,6 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             You've visited this page: <span id="page-counter"></span> times 
-            <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -85,6 +84,9 @@
     <script src="~/js/localforage/localforage.min.js" asp-append-version="true"></script>
     <script src="~/js/PartPicker.js" asp-append-version="true"></script>
     <script>
+        /**
+         * Manages the cookie for page visits
+         */
         $(document).ready(() => {
             function counter() {
                 let loc = window.location.pathname;
@@ -96,7 +98,6 @@
                 Cookies.set(loc, currentCount);
                 $("#page-counter").text(currentCount);
             }
-
             counter();
         })
     </script>

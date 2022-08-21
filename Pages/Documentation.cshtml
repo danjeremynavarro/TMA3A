@@ -1,0 +1,105 @@
+﻿@page
+@model TMA3A.Pages.DocumentationModel
+@{
+}
+
+<div class="text-left">
+    <h4 class="fw-bold">Site Description</h4>
+    <p>This site is composed of multiple applications that is described below:</p>
+    <ul>   
+        <li>Homepage - The homepage displays the user timezone and their public IP (This information is not saved in the server).</li>
+        <li>Store - A computer store where you can build your own pc from a list of components or use builds from a rotating list of previous customer orders.</li>
+        <li>Authentication and Authorization - allows registration, user authentication, role-based authorization and user management. </li>
+        <li>Order management -  allows user to manage their orders if logged in or optionally enter a order id to check its details.</li>
+        <li>Slideshow - a slideshow of multiple images with captions saved in a database. The slideshow contains controls that displays 
+            images sequentially (either forward or backwards) or randomly.
+        </li>
+        <li>Product management - management of the components used in the store. Only for admin users
+        </li>
+        <li>Image management - management of the images used in the slideshow. Only for admin users
+        </li>
+    </ul>
+</div>
+<hr />
+<div class="text-left">
+    <h4 class="fw-bold">Application Design</h4>
+    <h6>Technology Stack</h6>
+    <p>This application is written on C# using the ASP.NET Core framework.</p>
+    <p><a href="https://docs.microsoft.com/en-us/dotnet/csharp/">C#</a></p>
+    <p><a href="https://getbootstrap.com/">Bootstrap 5.0</a></p>
+    <p><a href="https://jquery.com/">JQuery</a></p>
+    <p><a href="https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0">ASP .Net Core</a></p>
+    <p><a href="https://docs.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-6.0&tabs=visual-studio">Razor Pages</a></p>
+    <p><a href="https://github.com/js-cookie/js-cookie">JSCookie</a></p>
+    <h6>Ip address, timezone and number of visits display</h6>
+    <p>The number of visits are tracked using cookies. This application uses the jscookie library to manage client side cookies.
+        The code for this functionality runs on the _Layout.cshtml which allows it to run on all pages that uses that layout.
+    </p>
+    <p>To track the number of visits for each page. A code checks the current path everytime a page loads, the code will then check if there 
+        is a cookie matching the path if there is it will take the current value add 1 and display the result. If there is none it will create
+        a cookie of the current path add 1 as its value and displays it.
+    </p>
+    <p>To display the timezone the built-in object <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">Intl.DateTimeFormat</a> is used.</p>
+    <p>To display the IP Address a request to <a href="https://www.ipify.org/">IPIFY Api</a> is made which returns the public IP of the client. It
+        is then display on the page.
+    </p>
+    <h6>Database Design</h6>
+    <p>Below is the database design for this application. This doesn't show all of the tables that might have been created by ASP .Net Core
+        Scaffolding.
+    </p>
+    <div class="w-50">
+        <img src="/img/Store.jpg" class="img-fluid" alt="Databse design">
+    </div>
+    <h6>Slideshow</h6>
+    <p>On application startup the system checks the imgSlides folder. If there are images that is not in the database it will create
+        an entry for it.
+    </p>
+    <p>Image information (caption,location) is saved in the database.</p>
+    <p>The slideshow can be stopped by clicking the Stop show. If a slideshow is stopped the left and right button appears that allows
+        the user to manually go through the list of images.
+    </p>
+    <p>For the random slideshow mode, a simple random algorithm might result on some images showing less than others. To prevent this an algorithm is added to ensure
+        that all images will be shown the same number of times.
+    </p>
+    <h6>Authentication and Authorization</h6>
+    <p>For the authentication and authorization, the ASP.NET Core <a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-6.0&tabs=visual-studio"">Identity</a>
+        library is used. The \Areas\Identity path is created using Identity's scaffolding</p>
+    <p>Two roles are always created. Admin and Users. Some pages can only be access if a user has the Admin role. The default role for all users is Users</p>
+    <p>The first time a user is registered. If there are no users with an admin role the new user will be granted admin role.
+    </p>
+    <h6>Store</h6>
+    <p>This application allows users to build their own pc from a list of given components. Components are categorized and the application
+        checks that all important item categories are picked before completing the order. On checkout the application will also ask the user
+        for its shipping address after submitting the order, the order will be put "In cart" status. To finish the order the user must "Submit Order"
+        which will then put the order status as "Ordered"
+    </p>
+    <p>On load of the store page 4 random orders from the system are picked and displayed on the front page which any users can select, modify and order.</p>
+    <h6>Order Management</h6>
+    <p>All orders are stored in the system. If a user is logged in, clicking on the "Orders" page will
+        list all orders for that users. If a user is not logged in the application will ask for an order id.
+        If the order id is for an order that is made by a registered user. The system will not display the details
+        unless the user logged in to prevent anonymous users checking registered users order information.
+    </p>
+</div>
+<hr />
+<div class="text-left">
+    <h4 class="fw-bold">User flow chart</h4>
+    <p>1. The user visits the Store page. There is an option for the user to build from default selection or select
+        one of the featured pc builds
+    </p>
+    <div class="w-50">
+        <img src="/img/store_diagram.jpg" class="img-fluid" alt="store diagram">
+    </div>
+    <p>2. The user then selects the components to purchase. Click on "Checkout" to go to next page</p>
+    <div class="w-50">
+        <img src="/img/part_picker_diagram.jpg" class="img-fluid" alt="store diagram">
+    </div>
+    <p>3. Add shipping details and click on "Submit"</p>
+    <div class="w-50">
+        <img src="/img/shipping_diagram.jpg" class="img-fluid" alt="store diagram">
+    </div>
+    <p>4. The user then goes to the order page to check the details of the order. To submit order click on "Submit ORder"</p>
+    <div class="w-50">
+        <img src="/img/order_page.jpg" class="img-fluid" alt="store diagram">
+    </div>
+</div>

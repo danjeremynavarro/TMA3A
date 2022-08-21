@@ -25,7 +25,7 @@ namespace TMA3A.Models
         public string? StreetAddress { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
-        [Display(Name ="Postal Code")]
+        [Display(Name = "Postal Code")]
         public string? PostalCode { get; set; }
         public string? Country { get; set; }    
     }

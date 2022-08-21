@@ -234,7 +234,7 @@ namespace TMA3A.Pages.PartPicker
             return orderToAttach.Id;
         }
 
-        private void setFieldsForOrderId()
+        private void setFieldsForOrder()
         {
             ResetFields();
             if (Order == null) { return; }
@@ -276,21 +276,44 @@ namespace TMA3A.Pages.PartPicker
             return;
         }
 
-        public IActionResult OnGet(int? orderId)
-        {          
-            if (orderId == null)
+        public IActionResult OnGet(int? orderId, int? view)
+        {   
+            
+            if (view != null)
+            {
+                Order? order = _context.Order.Include(b => b.OrderLines)
+                .ThenInclude(c => c.Product)
+                .FirstOrDefault(b => b.Id == view);
+                if (order != null)
+                {
+                    Order = order;
+                    setFieldsForOrder();
+                    Order = null;
+                    orderId = null;
+                    RouteData.Values.Remove("orderId");
+                    RouteData.Values.Remove("fromFeatured");
+                }
+            } else if (orderId == null)
             {
                 ResetFields();
             } else
             {
-                var order = _context.Order.Include(b => b.OrderLines)
+                Order? order = _context.Order.Include(b => b.OrderLines)
                     .ThenInclude(c => c.Product)
                     .FirstOrDefault(b => b.Id == orderId);
                 
                 if (order != null)
                 {
                     Order = order;
-                    setFieldsForOrderId();
+                    setFieldsForOrder();
+                    Order = null;
+                    orderId = null;
+                    RouteData.Values.Remove("orderId");
+                    RouteData.Values.Remove("fromFeatured");
+                } else if(order != null)
+                {
+                    Order = order;
+                    setFieldsForOrder();
                 }
             }            
             return Page();
@@ -300,7 +323,6 @@ namespace TMA3A.Pages.PartPicker
         {
             if (orderId != null)
             {
-                
                 Order = _context.Order.Include(p => p.OrderLines).FirstOrDefault(o=>o.Id==orderId);
                 _context.OrderLine.RemoveRange(Order.OrderLines); // Removes all Orderlines and creates new ones
             }
